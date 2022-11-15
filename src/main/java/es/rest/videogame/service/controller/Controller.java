@@ -1,16 +1,13 @@
 package es.rest.videogame.service.controller;
 
-import java.awt.*;
 import java.util.List;
 import es.rest.videogame.service.model.Game;
 import es.rest.videogame.service.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
 
 @RestController
 	public class Controller {
@@ -33,17 +30,26 @@ import org.springframework.web.client.HttpStatusCodeException;
 	}
 	
 	@PostMapping(path="/games")
-	public Game createPerson(@RequestBody Game game) {
-		return repository.save(game);
+	public ResponseEntity<Game> createGame(@RequestBody Game game) {
+		boolean created = repository.create(game);
+		if (created) {
+			return new ResponseEntity<Game>(game, HttpStatus.OK);
+		}
+		return new ResponseEntity<Game>(HttpStatus.CONFLICT);
 	}
-	
+
 	@PutMapping(path="/games/{id}")
-	public Game updatePerson(@PathVariable int id ,@RequestBody Game game) {
-		return repository.save(game);
+	public ResponseEntity<Game> updateGame(@PathVariable int id , @RequestBody Game game) {
+		//return new ResponseEntity(HttpStatus.NOT_IMPLEMENTED);
+		Game updated = repository.update(game);
+		if (updated == null) {
+			return new ResponseEntity<Game>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Game>(updated, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(path="/games/{id}", method={RequestMethod.DELETE})
-	public ResponseEntity deletePerson(@PathVariable("id") int id) {
+	public ResponseEntity deleteGame(@PathVariable("id") int id) {
 		boolean deleted = repository.deleteById(id);
 		if(deleted){
 			return new ResponseEntity(HttpStatus.NO_CONTENT); // Borrado, respuesta afirmativa sin contenido, 204
