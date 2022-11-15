@@ -12,11 +12,11 @@ public class GameRepository {
 	private List<Game> lista = new ArrayList<Game>();
 
 	public GameRepository(){
-		lista.add(new Game("1", "Resident Evil", "Square Enix", 9));
-		lista.add(new Game("2", "Metal Gear Solid", "Konami", 10));
-		lista.add(new Game("3", "Counter-Strikel", "Valve", 9));
-		lista.add(new Game("4", "Civilization VI", "2K Games", 8));
-		lista.add(new Game("5", "DCS World", "Eagle Dynamics", 7));
+		lista.add(new Game(1, "Resident Evil", "Square Enix", 9));
+		lista.add(new Game(2, "Metal Gear Solid", "Konami", 10));
+		lista.add(new Game(3, "Counter-Strikel", "Valve", 9));
+		lista.add(new Game(4, "Civilization VI", "2K Games", 8));
+		lista.add(new Game(5, "DCS World", "Eagle Dynamics", 7));
 	}
 
 	public List<Game> buscarTodos() {
@@ -41,8 +41,17 @@ public class GameRepository {
 		return null;
 	}
 
-	public void deleteById(int id) {
-
+	public boolean deleteById(int id) {
+		System.out.println("Borrando juego por id: "+id);
+		for (Game p : lista) {
+			if (p.getId() == id) {
+				System.out.println("Juego Borrado");
+				lista.remove(p);
+				return true;
+			}
+		}
+		System.out.println("Juego NO encontrado");
+		return false;
 	}
 
 }

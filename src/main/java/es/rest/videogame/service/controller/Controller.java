@@ -5,16 +5,11 @@ import java.util.List;
 import es.rest.videogame.service.model.Game;
 import es.rest.videogame.service.repository.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 
 @RestController
@@ -32,9 +27,9 @@ import org.springframework.web.client.HttpStatusCodeException;
 	public ResponseEntity<Game> findByName(@PathVariable("nombre") String nombre) {
 		Game g = repository.findByName(nombre);
 		if(g ==null){
-			return new ResponseEntity<Game>(HttpStatus.NOT_FOUND); // No encontrado 404
+			return new ResponseEntity<Game>(HttpStatus.NOT_FOUND); // No encontrado, 404
 		}
-		return new ResponseEntity<Game>(g ,HttpStatus.OK); // OK 200
+		return new ResponseEntity<Game>(g ,HttpStatus.OK); // Ok, 200
 	}
 	
 	@PostMapping(path="/games")
@@ -47,9 +42,13 @@ import org.springframework.web.client.HttpStatusCodeException;
 		return repository.save(game);
 	}
 	
-	@DeleteMapping(path="/game/{id}")
-	public void deletePerson(@PathVariable("id") int id) {
-		repository.deleteById(id);
+	@RequestMapping(path="/games/{id}", method={RequestMethod.DELETE})
+	public ResponseEntity deletePerson(@PathVariable("id") int id) {
+		boolean deleted = repository.deleteById(id);
+		if(deleted){
+			return new ResponseEntity(HttpStatus.NO_CONTENT); // Borrado, respuesta afirmativa sin contenido, 204
+		}
+		return new ResponseEntity(HttpStatus.NOT_FOUND); // No encontrado, 404
 		
 	}
 }

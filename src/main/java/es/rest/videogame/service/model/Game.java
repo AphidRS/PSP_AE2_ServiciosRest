@@ -2,12 +2,12 @@ package es.rest.videogame.service.model;
 
 public class Game {
 	
-	private String id;
+	private int id;
 	private String nombre;
 	private String compania;
 	private int  nota;
 	
-	public Game(String id, String nombre, String compania, int nota) {
+	public Game(int id, String nombre, String compania, int nota) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -19,11 +19,11 @@ public class Game {
 		
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
