@@ -1,4 +1,4 @@
-package es.prubaspring.model;
+package es.rest.videogame.service.model;
 
 public class Game {
 	
