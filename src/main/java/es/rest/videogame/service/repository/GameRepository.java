@@ -9,7 +9,7 @@ import es.rest.videogame.service.model.Game;
 @Repository
 public class GameRepository {
 
-	private List<Game> lista = new ArrayList<Game>();
+	private List<Game> lista = new ArrayList<>();
 	private int last_id = 0;
 
 	public GameRepository() {
@@ -30,7 +30,7 @@ public class GameRepository {
 		System.out.println("Buscando juego: " + nombre);
 		for (Game p : lista) {
 			if (p.getNombre().toLowerCase().contains(nombre.toLowerCase())) {
-				System.out.println("Juego Encontrado" + p.toString());
+				System.out.println("Juego Encontrado" + p);
 				return p;
 			}
 		}
@@ -91,5 +91,15 @@ public class GameRepository {
 			}
 		}
 		return -1;
+	}
+
+	public Game findById(int id) {
+		System.out.println("Buscando juego con ID:  " +  id);
+		for (Game p : lista) {
+			if (p.getId() == id) {
+				return p;
+			}
+		}
+		return null;
 	}
 }
